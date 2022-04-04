@@ -8,6 +8,8 @@ import Data from '../../data/PDL-03-10-2022.json';
 import { remap } from '../../utils/math';
 
 import { HEIGHT, WIDTH } from './constants';
+import { createTip } from './tipUtil';
+import { appendZoom, createZoom } from './zoomUtil';
 import * as S from './Home.styled';
 
 const { dataset: originalDataset } = Data;
@@ -24,6 +26,10 @@ const preparedData = dataset.map(({ identifier, title, description }) => ({
   value: description.length,
 }));
 
+const tip = createTip({
+  htmlTemplate: (d, x) => `<div>${x.value.toFixed(0)}</div>`,
+});
+
 const Home = () => {
   const layoutRef = useRef(null);
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -35,34 +41,23 @@ const Home = () => {
     let lastHighlighted = null;
 
     const cloudElement = d3.select('.cloud');
-
-    const tip = d3Tip()
-      .attr('class', 'd3-tip')
-      .offset([-1, 0])
-      .html((d, x) => {
-        d3.select('.d3-tip');
-        return `<div>${x.value.toFixed(0)}</div>`;
-      });
-
     cloudElement.call(tip);
     cloudElement.attr('viewBox', [-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT]);
-
     const g = cloudElement
       .attr('width', layout.size()[0])
       .attr('height', layout.size()[1])
       .append('g');
 
-    const zoom = d3Zoom.zoom().on('zoom', (e) => {
-      setZoomLevel(e.transform.k);
-      g.attr('transform', e.transform);
+    const zoom = createZoom({
+      element: g,
+      setZoomLevel,
     });
 
-    cloudElement.call(zoom).on('dblclick.zoom', null);
+    appendZoom({ cloudElement, element: zoom });
 
     g.selectAll('text')
       .data(words)
       .enter()
-
       .append('text')
       .style('font-size', (d) => `${d.size}px`)
       .attr('text-anchor', 'middle')
