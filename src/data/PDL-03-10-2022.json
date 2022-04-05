@@ -955,42 +955,6 @@
     },
     {
       "@type": "dcat:Dataset",
-      "title": "Administrative Record Publishing Website",
-      "description": "Website that communicates certain Hanford information to the public. Tri-party agreement.",
-      "modified": "2014-10-01",
-      "accessLevel": "public",
-      "identifier": "DOE-019-7545783421-1",
-      "dataQuality": true,
-      "landingPage": "http://pdw.hanford.gov/arpir/",
-      "license": "https://creativecommons.org/licenses/by/4.0",
-      "spatial": "DOE",
-      "temporal": "1940/2014",
-      "publisher": {
-        "@type": "org:Organization",
-        "name": "DOE/Richland Operations and the Office of River Protection"
-      },
-      "accrualPeriodicity": "R/P1D",
-      "contactPoint": {
-        "@type": "vcard:Contact",
-        "fn": "Miljana Mijic",
-        "hasEmail": "mailto:miljana_g_mijic@rl.gov"
-      },
-      "distribution": [
-        {
-          "@type": "dcat:Distribution",
-          "mediaType": "text/csv",
-          "title": "ARPIR",
-          "downloadURL": "https://pdw.hanford.gov/arpir/"
-        }
-      ],
-      "keyword": ["Hanford", "cleanup", "environment", "mission"],
-      "bureauCode": ["019:10"],
-      "programCode": ["019:051"],
-      "language": ["en-US"],
-      "theme": ["environment"]
-    },
-    {
-      "@type": "dcat:Dataset",
       "title": "The Quadrennial Energy Review (QER)",
       "description": "Affordable, clean, and secure energy and energy services are essential for improving U.S. economic productivity, enhancing our quality of life, protecting our environment, and ensuring our Nation's security. To help the federal government meet these energy goals, President Obama issued a Presidential Memorandum on January 9 directing the administration to conduct a Quadrennial Energy Review (QER). As described in the President\u2019s Climate Action Plan, this first-ever review will focus on energy infrastructure and will identify the threats, risks, and opportunities for U.S. energy and climate security, enabling the federal government to translate policy goals into a set of integrated actions. The Presidential Memorandum created an interagency task force co-chaired by the Director of the Office of Science and Technology Policy and the Special Assistant to the President for Energy and Climate Change. The Department of Energy will help coordinate interagency activities and provide policy analysis and modeling, and stakeholder engagement.",
       "modified": "2014-11-15",

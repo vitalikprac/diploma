@@ -1,0 +1,49 @@
+[
+  {
+    "name": "test",
+    "children": [
+      {
+        "name": "publications",
+        "children": [
+          {
+            "name": "a 2",
+            "imports": [
+              "test.publications.b"
+            ]
+          },
+          {
+            "name": "b",
+            "imports": [
+              "test.publications.a 2"
+            ]
+          },
+          {
+            "name": "c",
+            "imports": [
+            ]
+          }
+        ]
+      },
+      {
+        "name": "other",
+        "children": [
+          {
+            "name": "a",
+            "imports": [
+            ]
+          },
+          {
+            "name": "b",
+            "imports": [
+            ]
+          },
+          {
+            "name": "c",
+            "imports": [
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
