@@ -10,6 +10,7 @@
     "prettier": "node_modules/.bin/prettier --write \"src/**/*.{js,jsx,json,css,scss,md}\""
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "antd": "^4.19.5",
     "d3": "^7.4.1",
     "d3-cloud": "^1.2.5",
