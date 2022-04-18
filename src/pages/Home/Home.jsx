@@ -1,5 +1,6 @@
 import { Tabs } from 'antd';
 
+import TableData from './TableData/TableData';
 import UploadFile from './UploadFile';
 import * as S from './Home.styled';
 
@@ -7,14 +8,14 @@ const { TabPane } = Tabs;
 
 const Home = () => (
   <S.Wrapper defaultActiveKey="1">
-    <TabPane tab="Завантаження даних" key="1" style={{ height: 200 }}>
+    <TabPane tab="Завантаження даних" key="1">
       <UploadFile />
     </TabPane>
-    <TabPane tab="Tab 2" key="2">
-      Content of Tab Pane 2
+    <TabPane tab="Перегляд даних" key="2">
+      <TableData />
     </TabPane>
-    <TabPane tab="Tab 3" key="3">
-      Content of Tab Pane 3
+    <TabPane tab="Продовження..." key="3">
+      Продовження
     </TabPane>
   </S.Wrapper>
 );
