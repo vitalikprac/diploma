@@ -52,7 +52,7 @@ const CloudWords = memo(
           {currentObject ? (
             <>
               {selectFields.map((field) => (
-                <div>
+                <div key={field}>
                   <b>{field}</b> - {currentObject[field]}
                 </div>
               ))}

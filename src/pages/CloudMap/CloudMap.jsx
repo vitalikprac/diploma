@@ -1,10 +1,9 @@
 import { Tabs } from 'antd';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import CloudWords from '../../components/CloudWords';
 import { CloudMapContext } from '../../context/CloudMapContext';
-import { DataContext } from '../../context/DataContext';
 
+import Describe from './Describe';
 import SelectData from './SelectData';
 import ViewData from './ViewData';
 import * as S from './CloudMap.styled';
@@ -36,13 +35,7 @@ const CloudMap = () => {
     >
       <S.Wrapper onChange={handleTabChange} defaultActiveKey="1">
         <TabPane forceRender tab="Опис" key="1">
-          <div>
-            <b>Хмара тегів (хмара слів, або зважений список) </b>— це візуальне
-            подання списку категорій (або тегів, також званих мітками, ярликами,
-            ключовими словами, тощо).
-          </div>
-          <div>Приклад хмари тегів:</div>
-          <div>Example</div>
+          <Describe />
         </TabPane>
         <TabPane forceRender tab="Вибір даних" key="3">
           <SelectData />
