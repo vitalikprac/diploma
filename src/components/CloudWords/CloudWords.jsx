@@ -1,5 +1,5 @@
 import T from 'prop-types';
-import { memo, useContext, useEffect, useMemo } from 'react';
+import { memo, useContext, useMemo } from 'react';
 
 import { CloudMapContext } from '../../context/CloudMapContext';
 
@@ -36,8 +36,8 @@ const CloudWords = memo(
       data: dataset,
       width,
       height,
+      textField: displayField,
     });
-    const { identifier, title, description, modified } = currentObject || {};
 
     return (
       <S.Wrapper>
@@ -68,6 +68,12 @@ const CloudWords = memo(
 
 CloudWords.propTypes = {
   data: T.arrayOf(T.shape({})).isRequired,
+  id: T.string,
+  displayField: T.string,
+  sizeFunction: T.func,
+  width: T.number,
+  height: T.number,
+  defaultSize: T.string,
 };
 
 export default CloudWords;

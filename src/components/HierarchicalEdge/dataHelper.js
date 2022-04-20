@@ -1,25 +1,29 @@
+const funcGetId = (d) => d.identifier;
+
+const funcGetSameField = (d) => d.keyword;
+
 export const prepareDataset = (originalDataset) => {
   const dataset = originalDataset.slice(0, 100);
-  const mappedDataset = new Map(dataset.map((d) => [d.identifier, d]));
+  const mappedDataset = new Map(dataset.map((d) => [funcGetId(d), d]));
 
   const keywords = new Map();
 
   dataset.forEach((d) => {
-    d.keyword.forEach((keyword) => {
+    funcGetSameField(d).forEach((keyword) => {
       if (!keywords.has(keyword)) {
-        keywords.set(keyword, [d.identifier]);
+        keywords.set(keyword, [funcGetId(d)]);
       } else {
-        keywords.set(keyword, [...keywords.get(keyword), d.identifier]);
+        keywords.set(keyword, [...keywords.get(keyword), funcGetId(d)]);
       }
     });
   });
 
   const getRelativePublications = (publication) => [
     ...new Set(
-      publication.keyword
+      funcGetSameField(publication)
         .map((keyword) => keywords.get(keyword))
         .flat()
-        .filter((x) => x !== publication.title),
+        .filter((x) => x !== funcGetId(publication)),
     ),
   ];
 
@@ -28,10 +32,10 @@ export const prepareDataset = (originalDataset) => {
       name: 'publications',
       children: dataset.map((x) => {
         const relative = getRelativePublications(x).filter(
-          (y) => y !== y.identifier,
+          (y) => y !== funcGetId(y),
         );
         return {
-          name: x.identifier,
+          name: funcGetId(x),
           imports: relative.map((y) => `publications.${y}`),
         };
       }),

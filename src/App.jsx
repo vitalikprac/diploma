@@ -1,6 +1,6 @@
 import { ConfigProvider } from 'antd';
 import ukUa from 'antd/lib/locale/uk_UA';
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { DataContext } from './context/DataContext';

@@ -1,5 +1,4 @@
 import { Button, Divider, Input, TreeSelect } from 'antd';
-import T from 'prop-types';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ReactJson from 'react-json-view';
 
@@ -18,18 +17,8 @@ const defaultTextSelectFunction = `function prepare(item){
 
 const SelectData = () => {
   const { data } = useContext(DataContext);
-
-  const {
-    displayField,
-    selectFields,
-    setSelectFields,
-    setDisplayField,
-    setSizeFunction,
-  } = useContext(CloudMapContext);
-
-  useEffect(() => {
-    console.log(selectFields);
-  }, [selectFields]);
+  const { displayField, setSelectFields, setDisplayField, setSizeFunction } =
+    useContext(CloudMapContext);
   const firstItem = data?.[0];
 
   const [readyFunction, setReadyFunction] = useState(
@@ -125,7 +114,5 @@ const SelectData = () => {
     </S.Wrapper>
   );
 };
-
-SelectData.propTypes = {};
 
 export default SelectData;

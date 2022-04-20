@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { drawCloud } from './helpers/cloudHelper';
 
-export const useCloud = ({ words, data, id, width, height }) => {
+export const useCloud = ({ words, data, id, width, height, textField }) => {
   const layoutRef = useRef(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [currentObject, setCurrentObject] = useState(null);
@@ -27,6 +27,7 @@ export const useCloud = ({ words, data, id, width, height }) => {
         setCurrentObject,
         width,
         height,
+        textField,
       });
     });
     setLoading(true);

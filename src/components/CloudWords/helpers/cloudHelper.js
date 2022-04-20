@@ -19,6 +19,7 @@ export const drawCloud = ({
   setCurrentObject,
   width,
   height,
+  textField,
 }) => {
   let lastHighlighted = null;
 
@@ -53,7 +54,7 @@ export const drawCloud = ({
       lastHighlighted.style.fill = SELECTED_COLOR;
 
       const title = d.text;
-      setCurrentObject(data.find((x) => x.title === title));
+      setCurrentObject(data.find((x) => x[textField] === title));
     })
     .on('mouseover', function mouseOver(e, d) {
       tip.show.call(this, e, d);

@@ -73,7 +73,7 @@ export const drawHierarchicalEdge = ({
     .call((text) =>
       text.append('title').text(
         (d) => `${mappedDataset.get(d.data.name).title}
-${d.incoming.length - 1} зв'язків`,
+${d.incoming.length} зв'язків`,
       ),
     );
 

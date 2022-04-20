@@ -1,5 +1,4 @@
-import T from 'prop-types';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
 import CloudWords from '../../../components/CloudWords';
 import { CloudMapContext } from '../../../context/CloudMapContext';
@@ -26,7 +25,5 @@ const ViewData = () => {
     </S.Wrapper>
   );
 };
-
-ViewData.propTypes = {};
 
 export default ViewData;
