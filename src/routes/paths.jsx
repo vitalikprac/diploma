@@ -20,17 +20,20 @@ export const PAGES = [
     path: CLOUD_MAP,
     element: <CloudMap />,
     title: 'Хмара тегів',
+    needData: true,
   },
   {
     id: HIERARCHICAL_EDGE_BUNDLING,
     path: HIERARCHICAL_EDGE_BUNDLING,
     element: <HierarchicalEdgeBundling />,
     title: 'Ієрархічне об’єднання меж',
+    needData: true,
   },
   {
     id: HEAT_MAP,
     path: HEAT_MAP,
     element: <HeatDemo />,
     title: 'Карта "Температур"',
+    needData: true,
   },
 ];

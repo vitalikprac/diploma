@@ -14,7 +14,7 @@ const UploadFile = () => {
   const [fileData, setFileData] = useState(null);
   const [selectedField, setSelectedField] = useState(0);
 
-  const { setData } = useContext(DataContext);
+  const { setData, data } = useContext(DataContext);
 
   const beforeUpload = (file) => {
     const reader = new FileReader();
@@ -31,13 +31,13 @@ const UploadFile = () => {
   };
 
   const onChange = (e) => {
-    const data = e.target.value;
-    setData(data);
-    setSelectedField(data);
+    const dataValue = e.target.value;
+    setData(dataValue);
+    setSelectedField(dataValue);
   };
 
-  const convertDataToSelect = (data, name) => {
-    if (!data) {
+  const convertDataToSelect = (rawData, name) => {
+    if (!rawData) {
       return null;
     }
 
@@ -45,12 +45,12 @@ const UploadFile = () => {
       <S.SelectField>
         <Radio.Group onChange={onChange} value={selectedField}>
           <Space direction="vertical">
-            <Radio disabled={!(data instanceof Array)} value={data}>
+            <Radio disabled={!(rawData instanceof Array)} value={rawData}>
               <b>{name}</b>
             </Radio>
 
-            {!(data instanceof Array) &&
-              Object.entries(data).map(([key, value]) => (
+            {!(rawData instanceof Array) &&
+              Object.entries(rawData).map(([key, value]) => (
                 <Radio
                   disabled={!(value instanceof Array)}
                   value={value}
@@ -92,15 +92,13 @@ const UploadFile = () => {
         Крок 2. Виберіть данні для візуалізації (повинен бути масив)
       </S.StepDiv>
       {convertDataToSelect(fileData, fileName)}
-      <S.StepDiv disabled={!fileData || !selectedField}>
-        Крок 3. Перегляд прикладу
-      </S.StepDiv>
+      <S.StepDiv disabled={!data?.[0]}>Крок 3. Перегляд прикладу</S.StepDiv>
       <S.JsonWrapper>
-        {selectedField?.[0] && selectedField[0] instanceof Object && (
+        {data?.[0] instanceof Object && (
           <ReactJson
             displayDataTypes={false}
             enableClipboard={false}
-            src={selectedField?.[0]}
+            src={data?.[0]}
           />
         )}
       </S.JsonWrapper>

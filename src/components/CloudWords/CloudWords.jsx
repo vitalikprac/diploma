@@ -1,12 +1,12 @@
-import Data from '../../data/PDL-03-10-2022.json';
+import T from 'prop-types';
+import { useMemo } from 'react';
 
 import { prepareData } from './helpers/dataHelper';
 import { useCloud } from './useCloud';
 import * as S from './CloudWords.styled';
 
-const { preparedData, dataset } = prepareData(Data);
-
-const CloudWords = () => {
+const CloudWords = ({ data }) => {
+  const { preparedData, dataset } = useMemo(() => prepareData(data), [data]);
   const { zoomLevel, currentObject, loading } = useCloud({
     words: preparedData,
     data: dataset,
@@ -43,6 +43,10 @@ const CloudWords = () => {
       </S.CloudDescription>
     </S.Wrapper>
   );
+};
+
+CloudWords.propTypes = {
+  data: T.arrayOf(T.shape({})).isRequired,
 };
 
 export default CloudWords;
