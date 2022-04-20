@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
-import { HEIGHT, WIDTH } from './helpers/constants';
-
 export const Wrapper = styled.div`
   display: flex;
 `;
 
 export const CloudWrapper = styled.div`
-  height: ${HEIGHT}px;
-  width: ${WIDTH}px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
   border: 1px solid black;
   position: relative;
 `;
@@ -25,17 +23,17 @@ export const CloudDescription = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  height: ${HEIGHT}px;
-  width: 300px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width};
   border: 1px solid black;
   margin-left: 0.5rem;
   overflow: auto;
 `;
 
-export const SvgCloud = styled.svg.attrs({
-  className: 'cloud',
-})`
+export const SvgCloud = styled.svg.attrs((x) => ({
+  className: x.id || 'class',
+}))`
   user-select: none;
-  height: ${HEIGHT}px;
-  width: ${WIDTH}px;
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
 `;

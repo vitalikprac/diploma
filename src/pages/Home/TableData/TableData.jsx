@@ -3,21 +3,9 @@ import React, { useCallback, useContext, useState } from 'react';
 import ReactJson from 'react-json-view';
 
 import { DataContext } from '../../../context/DataContext';
+import { convertToTreeData } from '../../../utils/fieldHelpers';
 
 import * as S from './TableData.styled';
-
-const convertToTreeData = (data) =>
-  Object.entries(data)
-    .map(([key, value]) => {
-      if (typeof value === 'string') {
-        return {
-          title: key,
-          value: key,
-        };
-      }
-      return null;
-    })
-    .filter(Boolean);
 
 const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const TableData = () => {

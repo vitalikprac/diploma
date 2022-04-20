@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
 
-import { HEIGHT, WIDTH } from './constants';
 import { appendZoom, createTip, createZoom } from './d3Helper';
 
 const tip = createTip({
@@ -12,17 +11,20 @@ const HIGHLIGHT_COLOR = 'blue';
 const SELECTED_COLOR = 'red';
 
 export const drawCloud = ({
+  id,
   layout,
   data,
   words,
   setZoomLevel,
   setCurrentObject,
+  width,
+  height,
 }) => {
   let lastHighlighted = null;
 
-  const cloudElement = d3.select('.cloud');
+  const cloudElement = d3.select(`.${id}`).html('');
   cloudElement.call(tip);
-  cloudElement.attr('viewBox', [-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT]);
+  cloudElement.attr('viewBox', [-width / 2, -height / 2, width, height]);
   const g = cloudElement
     .attr('width', layout.size()[0])
     .attr('height', layout.size()[1])

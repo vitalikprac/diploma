@@ -4,6 +4,7 @@ import ReactJson from 'react-json-view';
 import { InboxOutlined } from '@ant-design/icons';
 
 import { DataContext } from '../../../context/DataContext';
+import { saveStorageData } from '../../../storage/dataStorage';
 
 import * as S from './UploadFile.styled';
 
@@ -34,6 +35,7 @@ const UploadFile = () => {
     const dataValue = e.target.value;
     setData(dataValue);
     setSelectedField(dataValue);
+    saveStorageData(dataValue);
   };
 
   const convertDataToSelect = (rawData, name) => {

@@ -1,5 +1,10 @@
 import { useContext } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
 import Header from '../components/Header';
 import { DataContext } from '../context/DataContext';
@@ -13,12 +18,19 @@ const RoutesList = () => {
     <Router>
       <Header />
       <Routes>
-        {PAGES.map(({ id, path, element, needData }) => {
-          if (needData && !data) {
-            return null;
-          }
-          return <Route key={id} path={path} element={element} />;
-        })}
+        {PAGES.map(({ id, path, element, needData }) => (
+          <Route
+            key={id}
+            path={path}
+            element={
+              needData && !data ? (
+                <Navigate to={PAGES[0].path} replace />
+              ) : (
+                element
+              )
+            }
+          />
+        ))}
 
         <Route path="*" element={PAGES[0].element} />
       </Routes>
