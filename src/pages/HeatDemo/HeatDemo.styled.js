@@ -1,10 +1,13 @@
+import { Tabs as TabsAntd } from 'antd';
 import styled from 'styled-components';
 
-import { HEADER_HEIGHT } from '../../utils/constants';
-
-export const Wrapper = styled.div`
-  height: calc(100% - ${HEADER_HEIGHT}px);
+export const Wrapper = styled(TabsAntd)`
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  font-size: 1.15rem;
+  .ant-tabs-tab {
+    font-size: 1.25rem;
+  }
 `;

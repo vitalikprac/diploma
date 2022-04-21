@@ -13,6 +13,17 @@ const TableData = () => {
   const [keyField, setKeyField] = useState('');
   const [fields, setFields] = useState([]);
 
+  const rowExpandRenderFunc = useCallback(
+    (record) => (
+      <ReactJson
+        displayDataTypes={false}
+        enableClipboard={false}
+        src={record}
+      />
+    ),
+    [],
+  );
+
   if (!data) {
     return <S.Wrapper>Дані не завантажені</S.Wrapper>;
   }
@@ -33,17 +44,6 @@ const TableData = () => {
       return null;
     },
   }));
-
-  const rowExpandRenderFunc = useCallback(
-    (record) => (
-      <ReactJson
-        displayDataTypes={false}
-        enableClipboard={false}
-        src={record}
-      />
-    ),
-    [],
-  );
 
   return (
     <S.Wrapper>

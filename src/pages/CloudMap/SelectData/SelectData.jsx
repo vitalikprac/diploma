@@ -78,6 +78,7 @@ const SelectData = () => {
           Напишіть функцію по якому критерію відбудеться будування хмари тегів
         </div>
         <TextArea
+          spellCheck={false}
           rows={4}
           placeholder="Напишіть функцію тут"
           onChange={(e) => setSelectFunction(e.target.value)}

@@ -33,7 +33,7 @@ export const PAGES = [
     id: HEAT_MAP,
     path: HEAT_MAP,
     element: <HeatDemo />,
-    title: 'Карта "Температур"',
+    title: 'Теплокарта',
     needData: true,
   },
 ];

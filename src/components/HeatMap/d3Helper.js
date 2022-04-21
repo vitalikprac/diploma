@@ -5,6 +5,7 @@ import { remap } from '../../utils/math';
 const DRAW_AXIS = false;
 
 export const drawHeatMap = ({
+  id,
   size,
   data,
   myGroups,
@@ -13,15 +14,17 @@ export const drawHeatMap = ({
   maxP,
   min,
   max,
+  fromColor,
+  toColor,
+  hoverFunction,
 }) => {
-  const { width, height, margin } = size;
+  const { width, height } = size;
   const svg = d3
-    .select('#my_dataviz')
+    .select(`#${id}`)
     .append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
+    .attr('width', width)
+    .attr('height', height)
+    .append('g');
 
   const x = d3.scaleBand().range([0, width]).domain(myGroups).padding(0.01);
   const y = d3.scaleBand().range([height, 0]).domain(myVars).padding(0.01);
@@ -35,11 +38,11 @@ export const drawHeatMap = ({
 
   const myColor = d3
     .scaleLinear()
-    .range(['white', '#0007b7'])
+    .range([fromColor, toColor])
     .domain([minP, maxP]);
 
   const tooltip = d3
-    .select('#my_dataviz')
+    .select(`#${id}`)
     .append('div')
     .style('opacity', 0)
     .attr('class', 'tooltip')
@@ -59,7 +62,7 @@ export const drawHeatMap = ({
   const mousemove = function mouseMove(event, d) {
     const { height: h } = tooltip.node().getBoundingClientRect();
     tooltip
-      .html(`Довжина опису публікації: ${d.value}`)
+      .html(hoverFunction(d.value))
       .style('left', `${d3.pointer(event)[0]}px`)
       .style('top', `${d3.pointer(event)[1] - h - 10}px`);
   };

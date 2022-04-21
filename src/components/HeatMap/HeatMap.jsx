@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-import pdl from '../../data/PDL-03-10-2022.json';
-
-import { SIZE } from './constants';
 import { drawHeatMap } from './d3Helper';
 import { getCalculations } from './dataHelper';
 import * as S from './HeatMap.styled';
 
-const HeatMap = () => {
+const HeatMap = ({ id, data, sizeFunction, hoverFunction, size, color }) => {
   const renderRef = useRef(null);
   const svgRef = useRef(null);
 
@@ -22,18 +19,24 @@ const HeatMap = () => {
       child = element.lastElementChild;
     }
 
-    const calculations = getCalculations(pdl.dataset);
+    const calculations = getCalculations({ data, sizeFunction });
     renderRef.current = drawHeatMap({
+      id,
       ...calculations,
-      size: SIZE,
+      size,
       minP: rangeValue[0],
       maxP: rangeValue[1],
+      sizeFunction,
+      hoverFunction,
+      fromColor: color.from,
+      toColor: color.to,
     });
-  }, [rangeDebouncedValue]);
+  }, [data, sizeFunction, rangeDebouncedValue, size, hoverFunction, color]);
 
   return (
     <S.Wrapper>
       <S.Slider
+        width={size.width}
         onChange={setRangeValue}
         onAfterChange={setRangeDebouncedValue}
         range
@@ -41,7 +44,7 @@ const HeatMap = () => {
         min={0}
         max={100}
       />
-      <S.SvgContainer ref={svgRef} id="my_dataviz" />
+      <S.SvgContainer ref={svgRef} id={id} />
     </S.Wrapper>
   );
 };

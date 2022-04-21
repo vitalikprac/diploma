@@ -1,4 +1,4 @@
-export const getCalculations = (rawData) => {
+export const getCalculations = ({ data: rawData, sizeFunction }) => {
   const mapSize = Math.ceil(Math.sqrt(rawData.length));
 
   const xSize = Math.round(Math.sqrt(rawData.length));
@@ -7,8 +7,6 @@ export const getCalculations = (rawData) => {
   const myGroups = new Array(xSize).fill(0).map((x, i) => i + 1);
   const myVars = new Array(ySize).fill(0).map((x, i) => i + 1);
 
-  const getValue = (value) => value.description.length;
-
   const data = rawData.map((x, i) => {
     const full = Math.floor(i / mapSize);
     const rest = i % mapSize;
@@ -16,11 +14,11 @@ export const getCalculations = (rawData) => {
     return {
       group: myGroups[full],
       variable: myVars[rest],
-      value: getValue(x),
+      value: sizeFunction(x),
     };
   });
 
-  const mappedValues = rawData.map(getValue);
+  const mappedValues = rawData.map(sizeFunction);
   const min = Math.min(...mappedValues);
   const max = Math.max(...mappedValues);
 
