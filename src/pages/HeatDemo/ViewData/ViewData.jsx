@@ -1,4 +1,3 @@
-import T from 'prop-types';
 import { useContext } from 'react';
 
 import HeatMap from '../../../components/HeatMap';
@@ -27,7 +26,5 @@ const ViewData = () => {
     </S.Wrapper>
   );
 };
-
-ViewData.propTypes = {};
 
 export default ViewData;

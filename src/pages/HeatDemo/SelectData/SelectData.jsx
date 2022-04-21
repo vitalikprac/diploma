@@ -1,5 +1,5 @@
 import { Button, Divider, Input } from 'antd';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import ReactJson from 'react-json-view';
 
 import HeatMap from '../../../components/HeatMap';
@@ -39,10 +39,6 @@ const SelectData = () => {
     defaultTextFunction: defaultHoverFunction,
     setFunction: setHoverFunction,
   });
-
-  useEffect(() => {
-    console.log(sizeFunction);
-  }, [sizeFunction]);
 
   return (
     <S.Wrapper>

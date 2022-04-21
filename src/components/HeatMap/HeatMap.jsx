@@ -1,3 +1,4 @@
+import T from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 
 import { drawHeatMap } from './d3Helper';
@@ -47,6 +48,21 @@ const HeatMap = ({ id, data, sizeFunction, hoverFunction, size, color }) => {
       <S.SvgContainer ref={svgRef} id={id} />
     </S.Wrapper>
   );
+};
+
+HeatMap.propTypes = {
+  id: T.string,
+  data: T.arrayOf(T.shape({})),
+  sizeFunction: T.func,
+  hoverFunction: T.func,
+  size: T.shape({
+    height: T.number,
+    width: T.number,
+  }),
+  color: T.shape({
+    from: T.string,
+    to: T.string,
+  }),
 };
 
 export default HeatMap;
