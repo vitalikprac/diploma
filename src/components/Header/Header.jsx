@@ -1,14 +1,15 @@
 import { Menu } from 'antd';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { DataContext } from '../../context/DataContext';
+import { dataSelector } from '../../recoil/selectors';
 import { PAGES } from '../../routes/paths';
 
 import * as S from './Header.styled';
 
 const Header = () => {
-  const { data } = useContext(DataContext);
+  const data = useRecoilValue(dataSelector);
+
   return (
     <S.Wrapper>
       <S.Logo />

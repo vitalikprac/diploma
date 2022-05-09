@@ -1,15 +1,16 @@
 import { Table, TreeSelect } from 'antd';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactJson from 'react-json-view';
+import { useRecoilValue } from 'recoil';
 
-import { DataContext } from '../../../context/DataContext';
+import { dataSelector } from '../../../recoil/selectors';
 import { convertToTreeData } from '../../../utils/fieldHelpers';
 
 import * as S from './TableData.styled';
 
 const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const TableData = () => {
-  const { data } = useContext(DataContext);
+  const data = useRecoilValue(dataSelector);
   const [keyField, setKeyField] = useState('');
   const [fields, setFields] = useState([]);
 

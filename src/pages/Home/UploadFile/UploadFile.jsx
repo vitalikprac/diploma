@@ -1,30 +1,41 @@
 import { Radio, Space, Upload } from 'antd';
-import { useContext, useState } from 'react';
 import ReactJson from 'react-json-view';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { InboxOutlined } from '@ant-design/icons';
 
-import { DataContext } from '../../../context/DataContext';
-import { saveStorageData } from '../../../storage/dataStorage';
+import { fileState } from '../../../recoil/atoms';
+import {
+  dataSelector,
+  fileDataSelector,
+  fileNameSelector,
+  fileSelectedDataPathSelector,
+} from '../../../recoil/selectors';
+import { convertFileToObject } from '../../../utils/fileHelper';
+import { StorageFile } from '../../../utils/storageHelper';
 
 import * as S from './UploadFile.styled';
 
 const { Dragger } = Upload;
 
 const UploadFile = () => {
-  const [fileName, setFileName] = useState('');
-  const [fileData, setFileData] = useState(null);
-  const [selectedField, setSelectedField] = useState(0);
-
-  const { setData, data } = useContext(DataContext);
+  const setFile = useSetRecoilState(fileState);
+  const fileData = useRecoilValue(fileDataSelector);
+  const fileName = useRecoilValue(fileNameSelector);
+  const [selectedDataPath, setSelectedDataPath] = useRecoilState(
+    fileSelectedDataPathSelector,
+  );
+  const data = useRecoilValue(dataSelector);
 
   const beforeUpload = (file) => {
     const reader = new FileReader();
-    setFileName('');
-    setFileData(null);
-    setSelectedField(0);
+    setSelectedDataPath(0);
     reader.onload = (e) => {
-      setFileName(file.name);
-      setFileData(JSON.parse(e.target.result.toString()));
+      const preparedFile = {
+        ...convertFileToObject(file),
+        data: JSON.parse(e.target.result.toString()),
+      };
+      setFile(preparedFile);
+      StorageFile.set(preparedFile);
     };
     reader.readAsText(file);
 
@@ -32,10 +43,9 @@ const UploadFile = () => {
   };
 
   const onChange = (e) => {
-    const dataValue = e.target.value;
-    setData(dataValue);
-    setSelectedField(dataValue);
-    saveStorageData(dataValue);
+    const pathValue = e.target.value;
+    setSelectedDataPath(pathValue);
+    StorageFile.setSelectedDataPath(pathValue);
   };
 
   const convertDataToSelect = (rawData, name) => {
@@ -45,9 +55,9 @@ const UploadFile = () => {
 
     return (
       <S.SelectField>
-        <Radio.Group onChange={onChange} value={selectedField}>
+        <Radio.Group onChange={onChange} value={selectedDataPath}>
           <Space direction="vertical">
-            <Radio disabled={!(rawData instanceof Array)} value={rawData}>
+            <Radio disabled={!(rawData instanceof Array)} value="this">
               <b>{name}</b>
             </Radio>
 
@@ -55,7 +65,7 @@ const UploadFile = () => {
               Object.entries(rawData).map(([key, value]) => (
                 <Radio
                   disabled={!(value instanceof Array)}
-                  value={value}
+                  value={key}
                   key={key}
                 >
                   <S.ChildField>

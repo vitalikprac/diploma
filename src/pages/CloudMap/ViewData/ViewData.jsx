@@ -1,13 +1,14 @@
 import { useContext } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import CloudWords from '../../../components/CloudWords';
 import { CloudMapContext } from '../../../context/CloudMapContext';
-import { DataContext } from '../../../context/DataContext';
+import { dataSelector } from '../../../recoil/selectors';
 
 import * as S from './ViewData.styled';
 
 const ViewData = () => {
-  const { data } = useContext(DataContext);
+  const data = useRecoilValue(dataSelector);
   const { displayField, sizeFunction } = useContext(CloudMapContext);
 
   const width = document.body.clientWidth - 500;

@@ -1,19 +1,25 @@
-import { useContext } from 'react';
+import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Navigate,
   Route,
   Routes,
 } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import Header from '../components/Header';
-import { DataContext } from '../context/DataContext';
+import { dataLoadingState } from '../recoil/atoms';
+import { dataSelector } from '../recoil/selectors';
 
 import { PAGES } from './paths';
 
 const RoutesList = () => {
-  const { data } = useContext(DataContext);
+  const data = useRecoilValue(dataSelector);
 
+  const isDataLoading = useRecoilValue(dataLoadingState);
+  if (isDataLoading) {
+    return null;
+  }
   return (
     <Router>
       <Header />

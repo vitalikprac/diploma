@@ -1,10 +1,11 @@
 import { Button, Divider, Input, TreeSelect } from 'antd';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import ReactJson from 'react-json-view';
+import { useRecoilValue } from 'recoil';
 
 import CloudWords from '../../../components/CloudWords';
 import { CloudMapContext } from '../../../context/CloudMapContext';
-import { DataContext } from '../../../context/DataContext';
+import { dataSelector } from '../../../recoil/selectors';
 import { convertToTreeData } from '../../../utils/fieldHelpers';
 
 import * as S from './SelectData.styled';
@@ -16,7 +17,7 @@ const defaultTextSelectFunction = `function prepare(item){
 }`;
 
 const SelectData = () => {
-  const { data } = useContext(DataContext);
+  const data = useRecoilValue(dataSelector);
   const { displayField, setSelectFields, setDisplayField, setSizeFunction } =
     useContext(CloudMapContext);
   const firstItem = data?.[0];
