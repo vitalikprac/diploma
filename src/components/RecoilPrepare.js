@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { dataLoadingState, fileState } from '../recoil/atoms';
+import { dataLoadingState, fileState } from '../recoil/recoil';
 import { StorageFile } from '../utils/storageHelper';
 
 export const RecoilPrepare = () => {

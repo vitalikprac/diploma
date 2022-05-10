@@ -1,49 +1,48 @@
 import { Button, Divider, Input, TreeSelect } from 'antd';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactJson from 'react-json-view';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import CloudWords from '../../../components/CloudWords';
-import { CloudMapContext } from '../../../context/CloudMapContext';
-import { dataSelector } from '../../../recoil/selectors';
+import { dataSelector } from '../../../recoil/recoil';
 import { convertToTreeData } from '../../../utils/fieldHelpers';
+import { CloudMapStorage } from '../../../utils/storageHelper';
+import {
+  additionalFieldsSelector,
+  cloudMapState,
+  displayFieldSelector,
+  sizeFunctionSelector,
+} from '../recoil';
 
 import * as S from './SelectData.styled';
 
 const { TextArea } = Input;
 
-const defaultTextSelectFunction = `function prepare(item){
-    return item.description.length;
-}`;
-
 const SelectData = () => {
   const data = useRecoilValue(dataSelector);
-  const { displayField, setSelectFields, setDisplayField, setSizeFunction } =
-    useContext(CloudMapContext);
+
+  const cloudMap = useRecoilValue(cloudMapState);
+  const [displayField, setDisplayField] = useRecoilState(displayFieldSelector);
+  const [additionalFields, setAdditionalFields] = useRecoilState(
+    additionalFieldsSelector,
+  );
+  const [sizeFunction, setSizeFunction] = useRecoilState(sizeFunctionSelector);
+  const [sizeFunctionValue, setSizeFunctionValue] = useState(sizeFunction);
   const firstItem = data?.[0];
 
-  const [readyFunction, setReadyFunction] = useState(
-    // eslint-disable-next-line no-new-func
-    new Function(`return ${defaultTextSelectFunction}`),
-  );
-
-  const [selectFunction, setSelectFunction] = useState(
-    defaultTextSelectFunction,
-  );
-
   const handleSaveFunction = () => {
-    // eslint-disable-next-line no-new-func
-    setReadyFunction(new Function(`return ${selectFunction}`));
+    setSizeFunction(sizeFunctionValue);
   };
 
   const slicedData = useMemo(() => data?.slice(0, 100), [data]);
 
   useEffect(() => {
-    if (readyFunction) {
-      setSizeFunction(() => readyFunction);
-      // setSizeFunction(readyFunction);
-    }
-  }, [readyFunction]);
+    CloudMapStorage.set({
+      displayField,
+      sizeFunction,
+      additionalFields,
+    });
+  }, [cloudMap]);
 
   return (
     <S.Wrapper>
@@ -64,6 +63,7 @@ const SelectData = () => {
           style={{ width: '100%' }}
           treeData={convertToTreeData(firstItem)}
           onChange={setDisplayField}
+          defaultValue={displayField}
           treeIcon
         />
         <div>
@@ -82,8 +82,8 @@ const SelectData = () => {
           spellCheck={false}
           rows={4}
           placeholder="Напишіть функцію тут"
-          onChange={(e) => setSelectFunction(e.target.value)}
-          value={selectFunction}
+          onChange={(e) => setSizeFunctionValue(e.target.value)}
+          value={sizeFunctionValue}
         />
         <Button onClick={handleSaveFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
@@ -98,7 +98,8 @@ const SelectData = () => {
           style={{ width: '100%' }}
           treeData={convertToTreeData(data?.[0])}
           treeCheckable
-          onChange={setSelectFields}
+          onChange={setAdditionalFields}
+          defaultValue={additionalFields}
           treeIcon
         />
       </S.SelectWrapper>
@@ -106,12 +107,7 @@ const SelectData = () => {
       <S.Step>Крок 3. Перегляд</S.Step>
       <div>Спрощена версія, кількість елементів(100)</div>
       <S.CloudWrapper>
-        <CloudWords
-          id="cloud-words-demo"
-          data={slicedData}
-          displayField={displayField}
-          sizeFunction={readyFunction}
-        />
+        <CloudWords id="cloud-words-demo" data={slicedData} />
       </S.CloudWrapper>
     </S.Wrapper>
   );

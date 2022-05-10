@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Navigate,
@@ -8,8 +7,7 @@ import {
 import { useRecoilValue } from 'recoil';
 
 import Header from '../components/Header';
-import { dataLoadingState } from '../recoil/atoms';
-import { dataSelector } from '../recoil/selectors';
+import { dataLoadingState, dataSelector } from '../recoil/recoil';
 
 import { PAGES } from './paths';
 

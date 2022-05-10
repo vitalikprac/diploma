@@ -18,9 +18,6 @@ const Home = () => (
       <TabPane tab="Перегляд даних" key="2">
         <TableData />
       </TabPane>
-      <TabPane tab="Продовження..." key="3">
-        Продовження
-      </TabPane>
     </S.Wrapper>
   </ErrorBoundary>
 );

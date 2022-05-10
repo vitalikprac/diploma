@@ -2,7 +2,7 @@ import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { dataSelector } from '../../recoil/selectors';
+import { dataSelector } from '../../recoil/recoil';
 import { PAGES } from '../../routes/paths';
 
 import * as S from './Header.styled';

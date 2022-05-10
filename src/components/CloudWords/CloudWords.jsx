@@ -1,7 +1,11 @@
 import T from 'prop-types';
-import { memo, useContext, useMemo } from 'react';
+import { memo, useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { CloudMapContext } from '../../context/CloudMapContext';
+import {
+  cloudMapState,
+  sizeFunctionEvaluatedSelector,
+} from '../../pages/CloudMap/recoil';
 
 import { HEIGHT, WIDTH } from './helpers/constants';
 import { prepareData } from './helpers/dataHelper';
@@ -12,13 +16,12 @@ const CloudWords = memo(
   ({
     id = 'cloud',
     data,
-    displayField,
-    sizeFunction,
     width = WIDTH,
     height = HEIGHT,
     defaultSize = 'yes',
   }) => {
-    const { selectFields } = useContext(CloudMapContext);
+    const { additionalFields, displayField } = useRecoilValue(cloudMapState);
+    const sizeFunction = useRecoilValue(sizeFunctionEvaluatedSelector);
 
     const { preparedData, dataset } = useMemo(
       () =>
@@ -51,7 +54,7 @@ const CloudWords = memo(
         >
           {currentObject ? (
             <>
-              {selectFields.map((field) => (
+              {additionalFields.map((field) => (
                 <div key={field}>
                   <b>{field}</b> - {currentObject[field]}
                 </div>
@@ -69,8 +72,6 @@ const CloudWords = memo(
 CloudWords.propTypes = {
   data: T.arrayOf(T.shape({})).isRequired,
   id: T.string,
-  displayField: T.string,
-  sizeFunction: T.func,
   width: T.number,
   height: T.number,
   defaultSize: T.string,

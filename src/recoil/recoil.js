@@ -1,9 +1,17 @@
-import { selector } from 'recoil';
+import { atom, selector } from 'recoil';
 
-import { fileState } from './atoms';
+export const fileState = atom({
+  key: 'file',
+  default: null,
+});
+
+export const dataLoadingState = atom({
+  key: 'dataLoading',
+  default: true,
+});
 
 export const fileNameSelector = selector({
-  key: 'fileNameState',
+  key: 'fileName',
   get: ({ get }) => get(fileState)?.fileName,
 });
 
@@ -21,7 +29,7 @@ export const fileSelectedDataPathSelector = selector({
 });
 
 export const dataSelector = selector({
-  key: 'dataState',
+  key: 'data',
   get: ({ get }) => {
     const file = get(fileState);
     return file?.data?.[file?.selectedDataPath];

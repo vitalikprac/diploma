@@ -3,13 +3,13 @@ import ReactJson from 'react-json-view';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { InboxOutlined } from '@ant-design/icons';
 
-import { fileState } from '../../../recoil/atoms';
 import {
   dataSelector,
   fileDataSelector,
   fileNameSelector,
   fileSelectedDataPathSelector,
-} from '../../../recoil/selectors';
+  fileState,
+} from '../../../recoil/recoil';
 import { convertFileToObject } from '../../../utils/fileHelper';
 import { StorageFile } from '../../../utils/storageHelper';
 

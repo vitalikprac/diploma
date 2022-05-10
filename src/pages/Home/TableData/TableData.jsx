@@ -1,18 +1,26 @@
 import { Table, TreeSelect } from 'antd';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ReactJson from 'react-json-view';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { dataSelector } from '../../../recoil/selectors';
+import { dataSelector } from '../../../recoil/recoil';
 import { convertToTreeData } from '../../../utils/fieldHelpers';
+import { StorageHome } from '../../../utils/storageHelper';
+import { viewFieldsSelector, viewKeyFieldSelector, viewState } from '../recoil';
 
 import * as S from './TableData.styled';
 
 const capitalizeFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const TableData = () => {
   const data = useRecoilValue(dataSelector);
-  const [keyField, setKeyField] = useState('');
-  const [fields, setFields] = useState([]);
+
+  const viewField = useRecoilValue(viewState);
+  const [keyField, setKeyField] = useRecoilState(viewKeyFieldSelector);
+  const [fields, setFields] = useRecoilState(viewFieldsSelector);
+
+  useEffect(() => {
+    StorageHome.set(viewField);
+  }, [viewField]);
 
   const rowExpandRenderFunc = useCallback(
     (record) => (
@@ -60,6 +68,7 @@ const TableData = () => {
           style={{ width: '100%' }}
           treeData={convertToTreeData(data?.[0])}
           onChange={setKeyField}
+          defaultValue={keyField}
           treeIcon
         />
         <TreeSelect
@@ -69,6 +78,7 @@ const TableData = () => {
           treeData={convertToTreeData(data?.[0])}
           treeCheckable
           onChange={setFields}
+          defaultValue={fields}
           treeIcon
         />
       </S.SelectWrapper>
