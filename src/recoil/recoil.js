@@ -1,13 +1,10 @@
 import { atom, selector } from 'recoil';
 
+import { StorageFile } from '../utils/storageHelper';
+
 export const fileState = atom({
   key: 'file',
-  default: null,
-});
-
-export const dataLoadingState = atom({
-  key: 'dataLoading',
-  default: true,
+  default: StorageFile.get(),
 });
 
 export const fileNameSelector = selector({

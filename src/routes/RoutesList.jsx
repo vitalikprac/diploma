@@ -7,17 +7,13 @@ import {
 import { useRecoilValue } from 'recoil';
 
 import Header from '../components/Header';
-import { dataLoadingState, dataSelector } from '../recoil/recoil';
+import { dataSelector } from '../recoil/recoil';
 
 import { PAGES } from './paths';
 
 const RoutesList = () => {
   const data = useRecoilValue(dataSelector);
 
-  const isDataLoading = useRecoilValue(dataLoadingState);
-  if (isDataLoading) {
-    return null;
-  }
   return (
     <Router>
       <Header />
