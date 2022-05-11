@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Spin, Tabs } from 'antd';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -14,8 +14,13 @@ const Home = () => (
   <ErrorBoundary FallbackComponent={ErrorFallback}>
     <S.Wrapper defaultActiveKey="1">
       <TabPane tab="Завантаження даних" key="1">
-        {/* TODO завантаження page */}
-        <Suspense fallback={<div>Завантаження...</div>}>
+        <Suspense
+          fallback={
+            <div>
+              <Spin size="large" />
+            </div>
+          }
+        >
           <UploadFile />
         </Suspense>
       </TabPane>

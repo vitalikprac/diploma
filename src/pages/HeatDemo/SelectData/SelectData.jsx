@@ -1,44 +1,48 @@
 import { Button, Divider, Input } from 'antd';
-import { useContext } from 'react';
+import { useEffect, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import ReactJson from 'react-json-view';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
+import ErrorFallback from '../../../components/ErrorFallback';
 import HeatMap from '../../../components/HeatMap';
-import { DataContext } from '../../../context/DataContext';
-import { HeatMapContext } from '../../../context/HeatMapContext';
+import { dataSelector } from '../../../recoil/recoil';
+import { HeatMapStorage } from '../../../utils/storageHelper';
+import {
+  heatMapState,
+  hoverFunctionSelector,
+  sizeFunctionSelector,
+} from '../recoil';
 
-import { useTextFunction } from './useTextFunction';
 import * as S from './SelectData.styled';
 
 const { TextArea } = Input;
 
-const defaultTextSelectFunction = `function prepare(item){
-    return item.description.length;
-}`;
-
-const defaultHoverFunction = `function prepare(item){
-    return \`Довжина опису публікації \${item}\`;
-}`;
-
 const SelectData = () => {
-  const { data } = useContext(DataContext);
-  const { sizeFunction, setSizeFunction, hoverFunction, setHoverFunction } =
-    useContext(HeatMapContext);
+  const data = useRecoilValue(dataSelector);
   const firstItem = data?.[0];
 
-  const { setSelectFunction, selectFunction, handleSaveFunction } =
-    useTextFunction({
-      defaultTextFunction: defaultTextSelectFunction,
-      setFunction: setSizeFunction,
-    });
+  const heatmap = useRecoilValue(heatMapState);
 
-  const {
-    setSelectFunction: setSelectHoverFunction,
-    selectFunction: selectHoverFunction,
-    handleSaveFunction: handleSaveHoverFunction,
-  } = useTextFunction({
-    defaultTextFunction: defaultHoverFunction,
-    setFunction: setHoverFunction,
-  });
+  const [sizeFunction, setSizeFunction] = useRecoilState(sizeFunctionSelector);
+  const [sizeFunctionValue, setSizeFunctionValue] = useState(sizeFunction);
+
+  const [hoverFunction, setHoverFunction] = useRecoilState(
+    hoverFunctionSelector,
+  );
+  const [hoverFunctionValue, setHoverFunctionValue] = useState(hoverFunction);
+
+  const handleSaveFunction = () => {
+    setSizeFunction(sizeFunctionValue);
+  };
+
+  const handleSaveHoverFunction = () => {
+    setHoverFunction(hoverFunctionValue);
+  };
+
+  useEffect(() => {
+    HeatMapStorage.set(heatmap);
+  }, [heatmap]);
 
   return (
     <S.Wrapper>
@@ -59,8 +63,8 @@ const SelectData = () => {
           spellCheck={false}
           rows={4}
           placeholder="Напишіть функцію тут"
-          onChange={(e) => setSelectFunction(e.target.value)}
-          value={selectFunction}
+          onChange={(e) => setSizeFunctionValue(e.target.value)}
+          value={sizeFunction}
         />
         <Button onClick={handleSaveFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
@@ -73,8 +77,8 @@ const SelectData = () => {
           spellCheck={false}
           rows={4}
           placeholder="Напишіть функцію тут"
-          onChange={(e) => setSelectHoverFunction(e.target.value)}
-          value={selectHoverFunction}
+          onChange={(e) => setHoverFunctionValue(e.target.value)}
+          value={hoverFunctionValue}
         />
         <Button onClick={handleSaveHoverFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
@@ -82,17 +86,17 @@ const SelectData = () => {
       <S.Step>Крок 3. Перегляд</S.Step>
       <div>Спрощена версія</div>
       <S.CloudWrapper>
-        <HeatMap
-          id="heatmap-demo"
-          size={{ height: 600, width: 800 }}
-          color={{
-            from: 'white',
-            to: 'red',
-          }}
-          data={data}
-          hoverFunction={hoverFunction}
-          sizeFunction={sizeFunction}
-        />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <HeatMap
+            id="heatmap-demo"
+            size={{ height: 600, width: 800 }}
+            color={{
+              from: 'white',
+              to: 'red',
+            }}
+            data={data}
+          />
+        </ErrorBoundary>
       </S.CloudWrapper>
     </S.Wrapper>
   );
