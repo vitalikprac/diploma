@@ -26,6 +26,15 @@ export const CloudMapStorage = {
   },
 };
 
+export const HeatMapStorage = {
+  get() {
+    return getByKey('heatMap');
+  },
+  set(data) {
+    return setByKey('heatMap', data);
+  },
+};
+
 export const StorageHome = {
   get() {
     return getByKey('home');

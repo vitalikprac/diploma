@@ -1,9 +1,11 @@
 import { Button, Divider, Input, TreeSelect } from 'antd';
 import React, { useEffect, useMemo, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import ReactJson from 'react-json-view';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import CloudWords from '../../../components/CloudWords';
+import ErrorFallback from '../../../components/ErrorFallback';
 import { dataSelector } from '../../../recoil/recoil';
 import { convertToTreeData } from '../../../utils/fieldHelpers';
 import { CloudMapStorage } from '../../../utils/storageHelper';
@@ -37,11 +39,7 @@ const SelectData = () => {
   const slicedData = useMemo(() => data?.slice(0, 100), [data]);
 
   useEffect(() => {
-    CloudMapStorage.set({
-      displayField,
-      sizeFunction,
-      additionalFields,
-    });
+    CloudMapStorage.set(cloudMap);
   }, [cloudMap]);
 
   return (
@@ -107,7 +105,9 @@ const SelectData = () => {
       <S.Step>Крок 3. Перегляд</S.Step>
       <div>Спрощена версія, кількість елементів(100)</div>
       <S.CloudWrapper>
-        <CloudWords id="cloud-words-demo" data={slicedData} />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <CloudWords id="cloud-words-demo" data={slicedData} />
+        </ErrorBoundary>
       </S.CloudWrapper>
     </S.Wrapper>
   );

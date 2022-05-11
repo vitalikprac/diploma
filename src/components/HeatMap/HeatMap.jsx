@@ -1,16 +1,25 @@
 import T from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+
+import {
+  hoverFunctionEvaluatedSelector,
+  sizeFunctionEvaluatedSelector,
+} from '../../pages/HeatDemo/recoil';
 
 import { drawHeatMap } from './d3Helper';
 import { getCalculations } from './dataHelper';
 import * as S from './HeatMap.styled';
 
-const HeatMap = ({ id, data, sizeFunction, hoverFunction, size, color }) => {
+const HeatMap = ({ id, data, size, color }) => {
   const renderRef = useRef(null);
   const svgRef = useRef(null);
 
   const [rangeValue, setRangeValue] = useState([0, 100]);
   const [rangeDebouncedValue, setRangeDebouncedValue] = useState([0, 100]);
+
+  const sizeFunction = useRecoilValue(sizeFunctionEvaluatedSelector);
+  const hoverFunction = useRecoilValue(hoverFunctionEvaluatedSelector);
 
   useEffect(() => {
     const element = svgRef.current;
