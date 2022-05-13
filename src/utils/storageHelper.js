@@ -35,6 +35,15 @@ export const HeatMapStorage = {
   },
 };
 
+export const HierarchicalStorage = {
+  get() {
+    return getByKey('hierarchical');
+  },
+  set(data) {
+    return setByKey('hierarchical', data);
+  },
+};
+
 export const StorageHome = {
   get() {
     return getByKey('home');
