@@ -62,8 +62,6 @@ const HeatMap = ({ id, data, size, color }) => {
 HeatMap.propTypes = {
   id: T.string,
   data: T.arrayOf(T.shape({})),
-  sizeFunction: T.func,
-  hoverFunction: T.func,
   size: T.shape({
     height: T.number,
     width: T.number,
