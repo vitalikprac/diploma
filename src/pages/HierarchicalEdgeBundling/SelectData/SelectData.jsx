@@ -85,7 +85,7 @@ const SelectData = () => {
       <br />
       <S.SelectWrapper>
         <h4>Виберіть поле </h4>
-        <div>Буде відображатия як ім`я при візуалізації</div>
+        <div>Буде відображатися як ім`я при візуалізації</div>
         <TreeSelect
           placeholder="Виберіть поле"
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}

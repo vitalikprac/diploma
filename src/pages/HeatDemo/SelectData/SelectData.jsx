@@ -50,6 +50,8 @@ const SelectData = () => {
     HeatMapStorage.set(heatmap);
   }, [heatmap]);
 
+  const { color } = useRecoilValue(heatMapState);
+
   return (
     <S.Wrapper>
       <h2>Крок 1. Перегляд полів довільного елементу (першого)</h2>
@@ -108,10 +110,7 @@ const SelectData = () => {
           <HeatMap
             id="heatmap-demo"
             size={{ height: 600, width: 800 }}
-            color={{
-              from: 'white',
-              to: 'red',
-            }}
+            color={color}
             data={data}
           />
         </ErrorBoundary>
