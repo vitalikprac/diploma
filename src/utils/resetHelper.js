@@ -48,7 +48,7 @@ export const resetDemo = ({
       'function prepare(item){\n    return item.description.length\n}',
     hoverFunction:
       // eslint-disable-next-line no-template-curly-in-string
-      'function prepare(item){\n    return `Довжина test опису публікації ${item}`;\n}',
+      'function prepare(item){\n    return `Довжина опису публікації ${item}`;\n}',
     color: { from: 'white', to: '#0007b7' },
     additionalFields: [
       'title',
