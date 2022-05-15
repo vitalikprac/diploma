@@ -9,14 +9,20 @@ const DEFAULT_CONNECTION_FUNCTION = `function connectionFunction(firstElement, s
 const HIERARCHICAL_STATE_DEFAULT = {
   identifierField: '',
   displayField: '',
+  additionalFields: [],
   connectionFunction: DEFAULT_CONNECTION_FUNCTION,
   maxElements: 100,
 };
 
 const defaultHierarchical =
   HierarchicalStorage.get() || HIERARCHICAL_STATE_DEFAULT;
-const { identifierField, displayField, connectionFunction, maxElements } =
-  defaultHierarchical;
+const {
+  identifierField,
+  displayField,
+  connectionFunction,
+  maxElements,
+  additionalFields,
+} = defaultHierarchical;
 
 export const identifierFieldState = atom({
   key: 'hierarchical.identifierField',
@@ -26,6 +32,11 @@ export const identifierFieldState = atom({
 export const displayFieldState = atom({
   key: 'hierarchical.displayField',
   default: displayField,
+});
+
+export const additionalFieldsState = atom({
+  key: 'hierarchical.additionalFields',
+  default: additionalFields,
 });
 
 export const maxElementsState = atom({

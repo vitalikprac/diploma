@@ -9,6 +9,7 @@ import { dataSelector } from '../../../recoil/recoil';
 import { convertToTreeData } from '../../../utils/fieldHelpers';
 import { HierarchicalStorage } from '../../../utils/storageHelper';
 import {
+  additionalFieldsState,
   connectionFunctionState,
   displayFieldState,
   hierarchicalState,
@@ -25,6 +26,9 @@ const SelectData = () => {
   const [identifierField, setIdentifierField] =
     useRecoilState(identifierFieldState);
 
+  const [additionalFields, setAdditionalFields] = useRecoilState(
+    additionalFieldsState,
+  );
   const [displayField, setDisplayField] = useRecoilState(displayFieldState);
   const [connectionFunction, setConnectionFunction] = useRecoilState(
     connectionFunctionState,
@@ -54,8 +58,9 @@ const SelectData = () => {
       <Divider />
       <h2>Крок 2. Конфігурація </h2>
       <S.SelectWrapper>
+        <h4>Виберіть поле</h4>
         <div>
-          Виберіть поле для унікального ідентифікатору (поле повинне бути
+          Необхідно обрати унікальний ідентифікатор (поле повинне бути
           унікальним для всіх інших даних)
         </div>
         <TreeSelect
@@ -79,7 +84,8 @@ const SelectData = () => {
       </S.SelectWrapper>
       <br />
       <S.SelectWrapper>
-        <div>Виберіть поле яке буде відобрражатися на візуалізації</div>
+        <h4>Виберіть поле </h4>
+        <div>Буде відображатия як ім`я при візуалізації</div>
         <TreeSelect
           placeholder="Виберіть поле"
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -98,6 +104,21 @@ const SelectData = () => {
             </>
           )}
         </div>
+      </S.SelectWrapper>
+      <br />
+      <S.SelectWrapper>
+        <h4>Виберіть додаткові поля</h4>
+        <div>Значення цих полей будуть відображені при обранні елементу</div>
+        <TreeSelect
+          placeholder="Виберіть поле"
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+          style={{ width: '100%' }}
+          treeData={convertToTreeData(firstItem)}
+          onChange={setAdditionalFields}
+          defaultValue={additionalFields}
+          treeIcon
+          multiple
+        />
       </S.SelectWrapper>
       <br />
       <S.SelectWrapper>

@@ -8,6 +8,7 @@ import { line, outed, overed } from './d3Helper';
 export const drawHierarchicalEdge = ({
   displayField,
   selectedNode,
+  setCurrentObject,
   root,
   mappedDataset,
   renderAll,
@@ -69,6 +70,7 @@ export const drawHierarchicalEdge = ({
         element: this,
         d,
       });
+      setCurrentObject(mappedDataset.get(d.data.name));
       overed({ element: this, d, link, renderAll });
     })
     .call((text) =>

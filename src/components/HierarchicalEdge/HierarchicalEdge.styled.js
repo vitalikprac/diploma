@@ -14,11 +14,22 @@ export const Wrapper = styled.div`
   }
 `;
 
+export const Selected = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 300px;
+  height: 100%;
+  padding: 0.5rem;
+  overflow-y: auto;
+  background-color: rgba(53, 192, 192, 0.2);
+`;
+
 export const Settings = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  right: 2rem;
+  left: 1rem;
   top: 1rem;
   height: auto;
   width: 300px;
