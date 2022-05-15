@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ReactJson from 'react-json-view';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { javascript } from '@codemirror/lang-javascript';
+import CodeMirror from '@uiw/react-codemirror';
 
 import CloudWords from '../../../components/CloudWords';
 import ErrorFallback from '../../../components/ErrorFallback';
@@ -17,8 +19,6 @@ import {
 } from '../recoil';
 
 import * as S from './SelectData.styled';
-
-const { TextArea } = Input;
 
 const SelectData = () => {
   const data = useRecoilValue(dataSelector);
@@ -44,7 +44,7 @@ const SelectData = () => {
 
   return (
     <S.Wrapper>
-      <S.Step>Крок 1. Перегляд полів даних</S.Step>
+      <h2>Крок 1. Перегляд полів довільного елементу (першого)</h2>
       <ReactJson
         displayDataTypes={false}
         enableClipboard={false}
@@ -52,9 +52,12 @@ const SelectData = () => {
         collapsed
       />
       <Divider />
-      <S.Step>Крок 2. Конфігурація</S.Step>
+      <h2>Крок 2. Конфігурація</h2>
       <S.SelectWrapper>
-        <div>Виберіть поле для відображення</div>
+        <h4>
+          Виберіть поле для відображення (повинне бути довільного типу який
+          можна відобразити як &quot;рядок&quot; або &quot;число&quot;)
+        </h4>
         <TreeSelect
           placeholder="Виберіть поле"
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -67,29 +70,34 @@ const SelectData = () => {
         <div>
           {displayField && (
             <>
-              <b>{displayField} </b>:<i> {firstItem[displayField]}</i>
+              <span>Обране поле </span>
+              <b>{displayField} </b> зі значенням{' '}
+              <i>`{firstItem[displayField]}`</i>
             </>
           )}
         </div>
       </S.SelectWrapper>
       <S.SelectWrapper>
         <div>
-          Напишіть функцію по якому критерію відбудеться будування хмари тегів
+          <h4>
+            Напишіть функцію по якому критерію відбудеться будування хмари тегів
+          </h4>
+          Перший аргумент функції це значення одного елементу
+          <br />З функції необхідно повернути значення <b>(число)</b> яке буде
+          використовуватися як розмір тега для побудови хмари тегів
         </div>
-        <TextArea
-          spellCheck={false}
-          rows={4}
-          placeholder="Напишіть функцію тут"
-          onChange={(e) => setSizeFunctionValue(e.target.value)}
+        <CodeMirror
           value={sizeFunctionValue}
+          height="150px"
+          extensions={[javascript()]}
+          theme="dark"
+          onChange={setSizeFunctionValue}
         />
         <Button onClick={handleSaveFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
       <S.SelectWrapper>
-        <div>
-          Виберіть додаткові поля для відображення елементу який буде обрано
-          пізніше
-        </div>
+        <h4>Виберіть додаткові поля</h4>
+        Значення цих полей будуть відображені при обранні елементу в хмарі
         <TreeSelect
           placeholder="Виберіть додаткові поля"
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -102,7 +110,7 @@ const SelectData = () => {
         />
       </S.SelectWrapper>
       <Divider />
-      <S.Step>Крок 3. Перегляд</S.Step>
+      <h2>Крок 3. Попередній перегляд</h2>
       <div>Спрощена версія, кількість елементів(100)</div>
       <S.CloudWrapper>
         <ErrorBoundary FallbackComponent={ErrorFallback}>

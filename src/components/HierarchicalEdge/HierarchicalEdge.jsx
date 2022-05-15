@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import {
+  additionalFieldsState,
   connectionFunctionEvaluatedState,
+  displayFieldState,
   identifierFieldState,
   maxElementsState,
 } from '../../pages/HierarchicalEdgeBundling/recoil';
@@ -25,8 +27,11 @@ const HierarchicalEdge = () => {
 
   const dataset = useRecoilValue(dataSelector);
   const identifierField = useRecoilValue(identifierFieldState);
+  const displayField = useRecoilValue(displayFieldState);
   const connectionFunction = useRecoilValue(connectionFunctionEvaluatedState);
   const maxElements = useRecoilValue(maxElementsState);
+  const additionalFields = useRecoilValue(additionalFieldsState);
+  const [currentObject, setCurrentObject] = useState({});
 
   useEffect(() => {
     if (svgRef.current) {
@@ -45,6 +50,8 @@ const HierarchicalEdge = () => {
 
     const svg = drawHierarchicalEdge({
       selectedNode: selectedNodeRef.current,
+      setCurrentObject,
+      displayField,
       root,
       mappedDataset,
       renderAll: isShowAll,
@@ -61,10 +68,21 @@ const HierarchicalEdge = () => {
     connectionFunction,
     maxElements,
     isHideEmpty,
+    displayField,
   ]);
 
   return (
     <S.Wrapper ref={wrapperRef}>
+      {Object.keys(currentObject).length > 0 && (
+        <S.Selected>
+          <h4>Вибраний елемент</h4>
+          {additionalFields.map((field) => (
+            <div key={field}>
+              <b>{field}</b> - {currentObject?.[field]}
+            </div>
+          ))}
+        </S.Selected>
+      )}
       <S.Settings>
         <S.SettingsTitle>Налаштування</S.SettingsTitle>
         <S.SettingsColumn>

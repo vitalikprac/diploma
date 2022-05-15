@@ -6,7 +6,9 @@ import { COLOR_NONE, VIEW_BOX } from './constants';
 import { line, outed, overed } from './d3Helper';
 
 export const drawHierarchicalEdge = ({
+  displayField,
   selectedNode,
+  setCurrentObject,
   root,
   mappedDataset,
   renderAll,
@@ -55,7 +57,7 @@ export const drawHierarchicalEdge = ({
     .attr('x', (d) => (d.x < Math.PI ? 6 : -6))
     .attr('text-anchor', (d) => (d.x < Math.PI ? 'start' : 'end'))
     .attr('transform', (d) => (d.x >= Math.PI ? 'rotate(180)' : null))
-    .text((d) => mappedDataset.get(d.data.name).title)
+    .text((d) => mappedDataset.get(d.data.name)[displayField])
     .each(function each(x) {
       // eslint-disable-next-line no-param-reassign
       x.text = this;
@@ -68,11 +70,12 @@ export const drawHierarchicalEdge = ({
         element: this,
         d,
       });
+      setCurrentObject(mappedDataset.get(d.data.name));
       overed({ element: this, d, link, renderAll });
     })
     .call((text) =>
       text.append('title').text(
-        (d) => `${mappedDataset.get(d.data.name).title}
+        (d) => `${mappedDataset.get(d.data.name)[displayField]}
 ${d.incoming.length} зв'язків`,
       ),
     );

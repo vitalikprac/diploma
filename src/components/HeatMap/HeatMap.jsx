@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import {
+  additionalFieldsSelector,
   hoverFunctionEvaluatedSelector,
   sizeFunctionEvaluatedSelector,
 } from '../../pages/HeatDemo/recoil';
@@ -20,6 +21,9 @@ const HeatMap = ({ id, data, size, color }) => {
 
   const sizeFunction = useRecoilValue(sizeFunctionEvaluatedSelector);
   const hoverFunction = useRecoilValue(hoverFunctionEvaluatedSelector);
+  const [currentObject, setCurrentObject] = useState({});
+
+  const additionalFields = useRecoilValue(additionalFieldsSelector);
 
   useEffect(() => {
     const element = svgRef.current;
@@ -40,11 +44,23 @@ const HeatMap = ({ id, data, size, color }) => {
       hoverFunction,
       fromColor: color.from,
       toColor: color.to,
+      rawData: data,
+      setCurrentObject,
     });
   }, [data, sizeFunction, rangeDebouncedValue, size, hoverFunction, color]);
 
   return (
     <S.Wrapper>
+      {Object.keys(currentObject).length > 0 && (
+        <S.Selected>
+          <h4>Вибраний елемент</h4>
+          {additionalFields?.map((field) => (
+            <div key={field}>
+              <b>{field}</b> - {currentObject?.[field]}
+            </div>
+          ))}
+        </S.Selected>
+      )}
       <S.Slider
         width={size.width}
         onChange={setRangeValue}

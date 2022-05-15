@@ -1,14 +1,18 @@
-import { Button, Divider, Input } from 'antd';
-import { useEffect, useState } from 'react';
+import { Button, Divider, TreeSelect } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ReactJson from 'react-json-view';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { javascript } from '@codemirror/lang-javascript';
+import CodeMirror from '@uiw/react-codemirror';
 
 import ErrorFallback from '../../../components/ErrorFallback';
 import HeatMap from '../../../components/HeatMap';
 import { dataSelector } from '../../../recoil/recoil';
+import { convertToTreeData } from '../../../utils/fieldHelpers';
 import { HeatMapStorage } from '../../../utils/storageHelper';
 import {
+  additionalFieldsSelector,
   heatMapState,
   hoverFunctionSelector,
   sizeFunctionSelector,
@@ -16,8 +20,7 @@ import {
 
 import * as S from './SelectData.styled';
 
-const { TextArea } = Input;
-
+// TODO select data
 const SelectData = () => {
   const data = useRecoilValue(dataSelector);
   const firstItem = data?.[0];
@@ -27,6 +30,9 @@ const SelectData = () => {
   const [sizeFunction, setSizeFunction] = useRecoilState(sizeFunctionSelector);
   const [sizeFunctionValue, setSizeFunctionValue] = useState(sizeFunction);
 
+  const [additionalFields, setAdditionalFields] = useRecoilState(
+    additionalFieldsSelector,
+  );
   const [hoverFunction, setHoverFunction] = useRecoilState(
     hoverFunctionSelector,
   );
@@ -44,9 +50,11 @@ const SelectData = () => {
     HeatMapStorage.set(heatmap);
   }, [heatmap]);
 
+  const { color } = useRecoilValue(heatMapState);
+
   return (
     <S.Wrapper>
-      <S.Step>Крок 1. Перегляд полів даних</S.Step>
+      <h2>Крок 1. Перегляд полів довільного елементу (першого)</h2>
       <ReactJson
         displayDataTypes={false}
         enableClipboard={false}
@@ -54,46 +62,55 @@ const SelectData = () => {
         collapsed
       />
       <Divider />
-      <S.Step>Крок 2. Конфігурація</S.Step>
+      <h2>Крок 2. Конфігурація</h2>
       <S.SelectWrapper>
-        <div>
-          Напишіть функцію по якому критерію відбудеться будування теплокарти
-        </div>
-        <TextArea
-          spellCheck={false}
-          rows={4}
-          placeholder="Напишіть функцію тут"
-          onChange={(e) => setSizeFunctionValue(e.target.value)}
-          value={sizeFunction}
+        <h4>Напишіть функцію</h4>
+        <div>по якому критерію відбудеться будування теплокарти</div>
+        <CodeMirror
+          value={sizeFunctionValue}
+          height="150px"
+          extensions={[javascript()]}
+          theme="dark"
+          onChange={setSizeFunctionValue}
         />
+
         <Button onClick={handleSaveFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
       <S.SelectWrapper>
-        <div>
-          Напишіть функцію по якому буде з`являтися підсказка при наведенні на
-          елемент
-        </div>
-        <TextArea
-          spellCheck={false}
-          rows={4}
-          placeholder="Напишіть функцію тут"
-          onChange={(e) => setHoverFunctionValue(e.target.value)}
+        <h4>Напишіть функцію</h4>
+        <div>по якому буде з`являтися підсказка при наведенні на елемент</div>
+        <CodeMirror
           value={hoverFunctionValue}
+          height="150px"
+          extensions={[javascript()]}
+          theme="dark"
+          onChange={setHoverFunctionValue}
         />
         <Button onClick={handleSaveHoverFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
+      <S.SelectWrapper>
+        <h4>Виберіть додаткові поля</h4>
+        <div>Значення цих полей будуть відображені при обранні елементу</div>
+        <TreeSelect
+          placeholder="Виберіть поле"
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+          style={{ width: '100%' }}
+          treeData={convertToTreeData(firstItem)}
+          onChange={setAdditionalFields}
+          defaultValue={additionalFields}
+          treeIcon
+          multiple
+        />
+      </S.SelectWrapper>
       <Divider />
-      <S.Step>Крок 3. Перегляд</S.Step>
+      <h2>Крок 3. Перегляд</h2>
       <div>Спрощена версія</div>
       <S.CloudWrapper>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <HeatMap
             id="heatmap-demo"
             size={{ height: 600, width: 800 }}
-            color={{
-              from: 'white',
-              to: 'red',
-            }}
+            color={color}
             data={data}
           />
         </ErrorBoundary>

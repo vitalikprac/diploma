@@ -1,5 +1,3 @@
-import { Divider } from 'antd';
-
 import demoFull from './demo_full.png';
 import itemFullData from './item_full_data.png';
 import itemFullDataField from './item_full_data_field.png';
@@ -16,12 +14,11 @@ const Describe = () => (
       подання списку категорій (або тегів, також званих мітками, ярликами,
       ключовими словами, тощо).
     </div>
-    <Divider />
-    <div>2) Приклад хмари тегів:</div>
+    <div>2) Приклад хмари тегів на довільному датасеті:</div>
     <img src={demoFull} alt="demo_full" height={600} />
     <div>
-      3) Масштаб - допомагає орієнтуватися у збільшені/зменшені хмари тегів (за
-      замовчуванням масштаб 1)
+      3) Масштаб - допомагає орієнтуватися у збільшені/зменшені розміру хмари
+      тегів (за замовчуванням масштаб 1)
     </div>
     <img src={zoom} alt="zoom" height={100} />
     <div>4) Один елемент</div>
@@ -44,7 +41,7 @@ const Describe = () => (
       з значенням (&quot;важливістю&quot;) цього поля{' '}
     </div>
 
-    <img src={itemHover} alt="item_hover" height={100} />
+    <img src={itemHover} alt="item_hover" height={300} />
   </S.Wrapper>
 );
 

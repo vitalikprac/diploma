@@ -13,6 +13,7 @@ const DEFAULT_HEAT_MAP_HOVER_FUNCTION = `function prepare(item){
 const heatMapDefaultState = {
   sizeFunction: DEFAULT_HEAT_MAP_SIZE_FUNCTION,
   hoverFunction: DEFAULT_HEAT_MAP_HOVER_FUNCTION,
+  additionalFields: [],
   color: {
     from: 'white',
     to: '#0007b7',
@@ -31,6 +32,17 @@ export const sizeFunctionSelector = selector({
     set(heatMapState, {
       ...get(heatMapState),
       sizeFunction: newValue,
+    });
+  },
+});
+
+export const additionalFieldsSelector = selector({
+  key: 'heatMapAdditionalFields',
+  get: ({ get }) => get(heatMapState).additionalFields,
+  set: ({ get, set }, newValue) => {
+    set(heatMapState, {
+      ...get(heatMapState),
+      additionalFields: newValue,
     });
   },
 });
