@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import {
   connectionFunctionEvaluatedState,
+  displayFieldState,
   identifierFieldState,
   maxElementsState,
 } from '../../pages/HierarchicalEdgeBundling/recoil';
@@ -25,6 +26,7 @@ const HierarchicalEdge = () => {
 
   const dataset = useRecoilValue(dataSelector);
   const identifierField = useRecoilValue(identifierFieldState);
+  const displayField = useRecoilValue(displayFieldState);
   const connectionFunction = useRecoilValue(connectionFunctionEvaluatedState);
   const maxElements = useRecoilValue(maxElementsState);
 
@@ -45,6 +47,7 @@ const HierarchicalEdge = () => {
 
     const svg = drawHierarchicalEdge({
       selectedNode: selectedNodeRef.current,
+      displayField,
       root,
       mappedDataset,
       renderAll: isShowAll,
@@ -61,6 +64,7 @@ const HierarchicalEdge = () => {
     connectionFunction,
     maxElements,
     isHideEmpty,
+    displayField,
   ]);
 
   return (

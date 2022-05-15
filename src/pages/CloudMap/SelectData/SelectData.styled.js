@@ -19,9 +19,6 @@ export const SelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-export const Step = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
+  border: 1px solid #1d39c4;
+  padding: 0.5rem;
 `;

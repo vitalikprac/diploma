@@ -11,7 +11,7 @@ const Describe = () => (
       візуалізацію зв`язків.
     </div>
     <Divider />
-    <div>2) Приклад :</div>
+    <div>2) Приклад ієрархічного об`єднання меж на довільному датасеті:</div>
     <img src={null} alt="demo_full" height={600} />
     <div>3) Вибір кольору</div>
     <img src={null} alt="zoom" height={100} />

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ReactJson from 'react-json-view';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { javascript } from '@codemirror/lang-javascript';
+import CodeMirror from '@uiw/react-codemirror';
 
 import ErrorFallback from '../../../components/ErrorFallback';
 import HeatMap from '../../../components/HeatMap';
@@ -16,8 +18,7 @@ import {
 
 import * as S from './SelectData.styled';
 
-const { TextArea } = Input;
-
+// TODO select data
 const SelectData = () => {
   const data = useRecoilValue(dataSelector);
   const firstItem = data?.[0];
@@ -46,7 +47,7 @@ const SelectData = () => {
 
   return (
     <S.Wrapper>
-      <S.Step>Крок 1. Перегляд полів даних</S.Step>
+      <h2>Крок 1. Перегляд полів довільного елементу (першого)</h2>
       <ReactJson
         displayDataTypes={false}
         enableClipboard={false}
@@ -54,18 +55,19 @@ const SelectData = () => {
         collapsed
       />
       <Divider />
-      <S.Step>Крок 2. Конфігурація</S.Step>
+      <h2>Крок 2. Конфігурація</h2>
       <S.SelectWrapper>
         <div>
           Напишіть функцію по якому критерію відбудеться будування теплокарти
         </div>
-        <TextArea
-          spellCheck={false}
-          rows={4}
-          placeholder="Напишіть функцію тут"
-          onChange={(e) => setSizeFunctionValue(e.target.value)}
-          value={sizeFunction}
+        <CodeMirror
+          value={sizeFunctionValue}
+          height="150px"
+          extensions={[javascript()]}
+          theme="dark"
+          onChange={setSizeFunctionValue}
         />
+
         <Button onClick={handleSaveFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
       <S.SelectWrapper>
@@ -73,17 +75,17 @@ const SelectData = () => {
           Напишіть функцію по якому буде з`являтися підсказка при наведенні на
           елемент
         </div>
-        <TextArea
-          spellCheck={false}
-          rows={4}
-          placeholder="Напишіть функцію тут"
-          onChange={(e) => setHoverFunctionValue(e.target.value)}
+        <CodeMirror
           value={hoverFunctionValue}
+          height="150px"
+          extensions={[javascript()]}
+          theme="dark"
+          onChange={setHoverFunctionValue}
         />
         <Button onClick={handleSaveHoverFunction}>Зберегти функцію</Button>
       </S.SelectWrapper>
       <Divider />
-      <S.Step>Крок 3. Перегляд</S.Step>
+      <h2>Крок 3. Перегляд</h2>
       <div>Спрощена версія</div>
       <S.CloudWrapper>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
