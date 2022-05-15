@@ -4,6 +4,7 @@ import connectionFull from './connections_full.png';
 import emptyFullDemo from './empty_full_demo.png';
 import fullDemo from './full_demo.png';
 import hover from './hover.png';
+import selectedElement from './selected_element.png';
 import selectedFull from './selected_full.png';
 import selectedWithAll from './selected_with_all.png';
 import settings from './settings.png';
@@ -42,6 +43,8 @@ const Describe = () => (
       зникають)
     </div>
     <img src={connectionFull} alt="connectionFull" height={600} />
+    <div>8) Приклад обраного елементу</div>
+    <img src={selectedElement} alt="selected_element" height={500} />
   </S.Wrapper>
 );
 
