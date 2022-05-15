@@ -17,7 +17,11 @@ export const drawHeatMap = ({
   fromColor,
   toColor,
   hoverFunction,
+  rawData,
+  setCurrentObject,
+  ySize,
 }) => {
+  let localSelected = null;
   const { width, height } = size;
   const svg = d3
     .select(`#${id}`)
@@ -53,11 +57,12 @@ export const drawHeatMap = ({
     .style('border-radius', '5px')
     .style('padding', '5px')
     .style('width', '100px')
-    .style('pointer-events', 'none');
+    .style('pointer-events', 'none')
+    .style('word-break', 'break-word');
 
   const mouseover = function mouseOver() {
     tooltip.style('opacity', 1);
-    d3.select(this).style('stroke', 'black');
+    d3.select(this).style('stroke', 'grey');
   };
   const mousemove = function mouseMove(event, d) {
     const { height: h } = tooltip.node().getBoundingClientRect();
@@ -68,7 +73,9 @@ export const drawHeatMap = ({
   };
   const mouseleave = function mouseLeave() {
     tooltip.style('opacity', 0);
-    d3.select(this).style('stroke', 'none');
+    if (localSelected !== this) {
+      d3.select(this).style('stroke', 'none');
+    }
   };
 
   svg
@@ -83,7 +90,16 @@ export const drawHeatMap = ({
     .style('fill', (d) => myColor(remap(d.value, min, max, 0, 100)))
     .on('mouseover', mouseover)
     .on('mousemove', mousemove)
-    .on('mouseleave', mouseleave);
+    .on('mouseleave', mouseleave)
+    .on('click', (e, d) => {
+      if (localSelected) {
+        d3.select(localSelected).style('stroke', 'none');
+      }
+      const [a, b] = [d.group - 1, d.variable - 1];
+      setCurrentObject(rawData[a * ySize + b]);
+      d3.select(e.target).style('stroke', 'black');
+      localSelected = e.target;
+    });
 
   return true;
 };

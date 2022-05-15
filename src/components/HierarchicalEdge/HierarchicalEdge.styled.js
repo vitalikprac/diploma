@@ -22,6 +22,7 @@ export const Selected = styled.div`
   height: 100%;
   padding: 0.5rem;
   overflow-y: auto;
+  overflow-wrap: anywhere;
   background-color: rgba(53, 192, 192, 0.2);
 `;
 

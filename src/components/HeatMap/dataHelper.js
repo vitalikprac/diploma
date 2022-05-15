@@ -22,5 +22,5 @@ export const getCalculations = ({ data: rawData, sizeFunction }) => {
   const min = Math.min(...mappedValues);
   const max = Math.max(...mappedValues);
 
-  return { myGroups, myVars, data, min, max };
+  return { myGroups, myVars, data, min, max, xSize, ySize };
 };

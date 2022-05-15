@@ -20,8 +20,6 @@ import {
 
 import * as S from './SelectData.styled';
 
-const { TextArea } = Input;
-
 const SelectData = () => {
   const data = useRecoilValue(dataSelector);
 
