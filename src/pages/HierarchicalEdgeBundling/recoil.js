@@ -63,5 +63,13 @@ export const hierarchicalState = selector({
     displayField: get(displayFieldState),
     connectionFunction: get(connectionFunctionState),
     maxElements: get(maxElementsState),
+    additionalFields: get(additionalFieldsState),
   }),
+  set: ({ set }, newValue) => {
+    set(identifierFieldState, newValue.identifierField);
+    set(displayFieldState, newValue.displayField);
+    set(connectionFunctionState, newValue.connectionFunction);
+    set(maxElementsState, newValue.maxElements);
+    set(additionalFieldsState, newValue.additionalFields);
+  },
 });
